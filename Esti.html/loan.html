@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example Form</title>
+    <style>
+        body {
+          background-color: rgb(239, 241, 85);
+        }
+      </style>
+  </head>
+  <body>
+    <form>
+      <label for="Principal Loan Amount(Rs.)">Principal Loan Amount(Rs.):</label>
+      <input type="Principal Loan Amount(Rs.)" id="Principal Loan Amount(Rs.)"name="Principal Loan Amount(Rs.)"><br><br>
+
+      <label for="Interest Rate(%)">Interest Rate(%):</label>
+      <input type="Interest Rate(%)" id="Interest Rate(%)" name="Interest Rate(%)"><br><br>
+
+      <label for="Tenure(in Months)">Tenure(in Months):</label>
+      <input type="Tenure(in Months)"id="Tenure(in Months)" name="Tenure(in Months)"></textarea><br><br>
+
+      <button>Estimate</button>
+      
+
+    </form>
+  </body>
+</html>
+
+<table>
+        <thead>
+          <tr>
+            <th>Details</th>
+            <th>Reducing Interest loan</th>
+            <th>Fixed interest loan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Interest (Rs)</td>
+            <td><input type="number" name="reducinginterest_interest" id="reducinginterest_interest"></td>
+            <td><input type="number" name="fixedinterest_interest" id="fixedinterest_interest"></td>
+          </tr>
+          <tr>
+            <td>Total Payment (Rs)</td>
+            <td><input type="number" name="reducinginterest_payment" id="reducinginterest_payment"></td>
+            <td><input type="number" name="fixedinterest_payment" id="fixedinterest_payment"></td>
+          </tr>
+          <tr>
+            <td>Monthly EMI (Rs)</td>
+            <td><input type="number" name="reducinginterest_emi" id="reducinginterest_emi"></td>
+            <td><input type="number" name="fixedinterest_emi" id="fixedinterest_emi"></td>
+          </tr>
+        </tbody>
+      </table>
+      <script>
+const _principalAmount = document.getElementById("principalAmount");
+const _interestRateYear = document.getElementById("interestRate");
+const _tenureMonth = document.getElementById("tenure");
+
+function getEmiReducing(P, N, R) {
+    return (P * R * (Math.pow((1 + R), N) / (Math.pow((1 + R), N) - 1)));
+}
+
+function EstimateReducingInterestLoan() {
+    calculateEMI();
+    totalPayment();
+    totalInterest();
+    EstimateFixedInterestLoan();
+}
+
+function EstimateFixedInterestLoan() {
+    const principalAmount = Number(_principalAmount.value);
+    const interestRateYear = Number(_interestRateYear.value);
+    const tenureMonth = Number(_tenureMonth.value);
+
+    const totalInterestFixed = principalAmount * interestRateYear * tenureMonth / 1200;
+    const totalPaymentFixed = principalAmount + totalInterestFixed;
+    const emiFixed = totalPaymentFixed / tenureMonth;
+
+    document.getElementById("tInterestFixed").innerHTML = Number(totalInterestFixed).toFixed(2).toString();
+    document.getElementById("tPaymentFixed").innerHTML = Number(totalPaymentFixed).toFixed(2).toString();
+    document.getElementById("EMIFixed").innerHTML = Number(emiFixed).toFixed(2).toString();
+}
+
+function reducingLoan() {
+    const principalAmount = Number(_principalAmount.value);
+    const interestRateYear = Number(_interestRateYear.value);
+    const interestRateMonth = Number(interestRateYear / 1200);
+    const tenureMonth = Number(_tenureMonth.value);
+
+    const emiReducing = getEmiReducing(principalAmount, tenureMonth, interestRateMonth);
+    const totalPaymentReducing = tenureMonth * emiReducing;
+    const totalInterestReducing = totalPaymentReducing - principalAmount;
+
+    return {
+        emiReducing: emiReducing,
+        totalPaymentReducing: totalPaymentReducing,
+        totalInterestReducing: totalInterestReducing
+    };
+}
+
+function calculateEMI() {
+    const emiReducing = reducingLoan().emiReducing;
+    document.getElementById("EMI").innerHTML = Number(emiReducing).toFixed(2).toString();
+}
+
+function totalPayment() {
+    const totalPaymentReducing = reducingLoan().totalPaymentReducing;
+      </script>
+    
+          
+       
