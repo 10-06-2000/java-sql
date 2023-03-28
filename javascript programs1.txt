@@ -1,0 +1,157 @@
+1.function romanToNumber(romanNumeral) {
+    const romanNumerals = {
+        'I': 1,
+        'V': 5,
+        'X': 10,
+        'L': 50,
+        'C': 100,
+        'D': 500,
+        'M': 1000,
+    };
+    
+    let result = 0;
+    
+    for (let i = 0; i < romanNumeral.length; i++) {
+        const currentNumeral = romanNumerals[romanNumeral[i]];
+        const nextNumeral = romanNumerals[romanNumeral[i + 1]];
+        
+        if (nextNumeral && currentNumeral < nextNumeral) {
+            result -= currentNumeral;
+        } else {
+            result += currentNumeral;
+        }
+    }
+    
+    return result;
+}
+console.log(romanToNumber('XXIV')); // Output: 24
+console.log(romanToNumber('LXIX')); // Output: 69
+
+
+2 function findPair(numbers, target) {
+  const pairs = [];
+
+  // loop through the array of numbers
+  for (let i = 0; i < numbers.length; i++) {
+    // loop through the remaining numbers
+    for (let j = i + 1; j < numbers.length; j++) {
+      // if the sum of the two numbers equals the target, add them to the pairs array
+      if (numbers[i] + numbers[j] === target) {
+        pairs.push([numbers[i], numbers[j]]);
+      }
+    }
+  }
+
+  return pairs;
+}
+const numbers = [1, 2, 3, 4, 5];
+const target = 6;
+
+console.log(findPair(numbers, target)); // Output: [[1, 5], [2, 4]]
+
+3
+
+
+
+
+function reverseString(inputString) {
+  // Check if input string contains Malayalam characters
+  const malayalamRegex = /[\u0D00-\u0D7F]/g; // Regular expression to match Malayalam characters
+  if (malayalamRegex.test(inputString)) {
+    throw new Error('Input string contains Malayalam characters');
+  }
+
+  // Reverse the input string
+  const reversedString = inputString.split('').reverse().join('');
+
+  return reversedString;
+}
+console.log(reverseString('Hello, world!')); // Output: !dlrow ,olleH
+console.log(reverseString('നമസ്കാരം')); // Throws error: Input string contains Malayalam characters
+
+4
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+    <style>
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Registration Form</h1>
+    <form onsubmit="return validateForm()">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name">
+      <span id="nameError" class="error"></span><br><br>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password">
+      <span id="passwordError" class="error"></span><br><br>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email">
+      <span id="emailError" class="error"></span><br><br>
+
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="text" id="phoneNumber" name="phoneNumber">
+      <span id="phoneNumberError" class="error"></span><br><br>
+
+      <input type="submit" value="Submit">
+    </form>
+    <script>
+      function validateForm() {
+        let name = document.forms[0]["name"].value;
+        let password = document.forms[0]["password"].value;
+        let email = document.forms[0]["email"].value;
+        let phoneNumber = document.forms[0]["phoneNumber"].value;
+
+        let nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+        let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        let phoneNumberRegex = /^\d{10}$/;
+
+        let errors = [];
+
+        if (!nameRegex.test(name)) {
+          errors.push("Invalid name format");
+          document.getElementById("nameError").innerHTML = "Invalid name format";
+        } else {
+          document.getElementById("nameError").innerHTML = "";
+        }
+
+        if (!passwordRegex.test(password)) {
+          errors.push("Invalid password format. Password must be at least 8 characters long and contain at least one letter and one number");
+          document.getElementById("passwordError").innerHTML = "Invalid password format. Password must be at least 8 characters long and contain at least one letter and one number";
+        } else {
+          document.getElementById("passwordError").innerHTML = "";
+        }
+
+        if (!emailRegex.test(email)) {
+          errors.push("Invalid email format");
+          document.getElementById("emailError").innerHTML = "Invalid email format";
+        } else {
+          document.getElementById("emailError").innerHTML = "";
+        }
+
+        if (!phoneNumberRegex.test(phoneNumber)) {
+          errors.push("Invalid phone number format. Phone number must be 10 digits long");
+          document.getElementById("phoneNumberError").innerHTML = "Invalid phone number format. Phone number must be 10 digits long";
+        } else {
+          document.getElementById("phoneNumberError").innerHTML = "";
+        }
+
+        if (errors.length > 0) {
+          return false;
+        }
+
+        return true;
+      }
+    </script>
+  </body>
+</html>
+
